@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Search from "./components/users/Search";
@@ -8,6 +8,7 @@ import Alert from "./components/layout/Alert";
 import About from "./components/pages/About";
 
 import GithubState from "./context/github/GithubState";
+import AlertState from "./context/alert/AlertState";
 
 import "./App.css";
 
@@ -16,7 +17,7 @@ const App = () => {
   //const [user, setUser] = useState({});
   //const [repos, setRepos] = useState([]);
   //const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
+  //const [alert, setAlert] = useState(null);
 
   // // Function for searching github users
   // const searchUsers = async text => {
@@ -63,43 +64,40 @@ const App = () => {
   //   setLoading(false);
   // };
 
-  const showAlert = (msg, type) => {
-    // this.setState({ alert: { msg, type } });
-    setAlert({ msg, type });
+  // const showAlert = (msg, type) => {
+  //   // this.setState({ alert: { msg, type } });
+  //   setAlert({ msg, type });
 
-    //setTimeout(() => this.setState({ alert: null }), 5000);
-    setTimeout(() => setAlert(null), 5000);
-  };
+  //   //setTimeout(() => this.setState({ alert: null }), 5000);
+  //   setTimeout(() => setAlert(null), 5000);
+  // };
 
   return (
     <GithubState>
-      <Router>
-        <div className='App'>
-          <Navbar />
-          <div className='container'>
-            <Alert alert={alert} />
-            <Switch>
-              <Route
-                exact
-                path='/'
-                render={props => (
-                  <Fragment>
-                    <Search
-                      //searchUsers={searchUsers}
-                      //clearUsers={clearUsers}
-                      //showClear={users.length > 0 ? true : false}
-                      setAlert={showAlert}
-                    />
-                    <Users />
-                  </Fragment>
-                )}
-              />
-              <Route exac path='/about' component={About} />
-              <Route exact path='/user/:login' component={User} />
-            </Switch>
+      <AlertState>
+        <Router>
+          <div className='App'>
+            <Navbar />
+            <div className='container'>
+              <Alert />
+              <Switch>
+                <Route
+                  exact
+                  path='/'
+                  render={props => (
+                    <Fragment>
+                      <Search />
+                      <Users />
+                    </Fragment>
+                  )}
+                />
+                <Route exac path='/about' component={About} />
+                <Route exact path='/user/:login' component={User} />
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </AlertState>
     </GithubState>
   );
 };
